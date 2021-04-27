@@ -1,3 +1,14 @@
 body {
   background-color: blanchedalmond;
 }
+
+p {
+  color: burlywood;
+  text-align: center;
+  margin: 10px;
+}
+
+.parkInfoOutput {
+  text-align: center;
+  display: none;
+}
