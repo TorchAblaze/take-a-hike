@@ -19,6 +19,19 @@ function getElements(response) {
   }
 }
 
+function getWeatherElements(response) {
+  if (response.main) {
+    $("#current-temp").text(response.main.temp);
+    $("#description").text(response.weather.description);
+    $("#high-temp").text(response.main.temp_max);
+    $("#low-temp").text(response.main.temp_min);
+    $("#wind-speed").text(response.wind.speed);
+    $("#rain-total").text(response.rain[3h]);
+    $("#snow-total").text(response.snow.snow[3h]);
+  } else {
+    $("#show-weather").text(response);
+  }
+}
 
 $(document).ready(function () {
   $("#main-page").submit(function (event) {
@@ -27,8 +40,11 @@ $(document).ready(function () {
     const selectedState = $("#state-select").val();
 
     NpsMainService.getPark(selectedState)
-      .then(function (response) {
-        getElements(response);
+      .then(function (parkResponse) {
+
+        const parkZip = parkResponse.data.addresses.postalCode;
+        getElements(Parkresponse);
+
         // getElements(response);
         let pleaseWork = response.data;
         console.log(pleaseWork);
