@@ -13,7 +13,7 @@ function getStateParks(response) {
     });
     $(".park-list").html(parkListHTML);
   } else {
-    $(".park-list").text("🍃 Oops! I can't beleaf there was a problem, try again 🍃");
+    $(".park-list").text("🍃 Oops! I can't beleaf it! That state doesn't exist 🍃");
   }
 }
 
@@ -22,33 +22,27 @@ function parksInfo(response) {
     $(".park-names").hide();
     const clickedPark = this.id; 
     const parkName = response.data[clickedPark].fullName;
-    console.log(parkName);
-
     const parkDescription = `${response.data[clickedPark].description}`;
     const parkFees = `${response.data[clickedPark].entranceFees[0].cost}`;
-
     let parkActivities = ``;
-    console.log(parkActivities);
 
     response.data[clickedPark].activities.forEach((activity) => {
-      parkActivities += activity.name;
+      parkActivities += `<li>${activity.name}</li>`;
     });
-    // parkAlerts = ``; // different url? 
 
-    parkDescription;
-    console.log(`park fees: ${parkFees}`);
-    console.log(response);
-    // $(".parkInfoOutput").html(parkName);
-    $(".parkInfoOutput").slideDown(parkFees);
-    $(".parkInfoOutput").show();
+    const parkCode = response.data[clickedPark].parkCode;
+    let parkAlerts = ``;
+    NpsMainService.getAlert(parkCode)
+      .then(function(response) {
+        response.data.forEach((alert) => {
+          console.log(alert);
+          parkAlerts += `<li>${alert.description}</li>`;
+        });
+      });
+    $(".parkInfoOutput").html(`<h2>Park Name: ${parkName}</h2> <br> <h3>Park Info: ${parkDescription}</h3> <br> <h3>Park Alerts:</h3><or>${parkAlerts}</ol> <br> <h3>Park Fee: ${parkFees}</h3> <br> <ul>Park Activities: ${parkActivities}</ul>`);
+    $(".parkInfoOutput").slideDown();
   });
 }
-
-
-
-
-
-
 
 $(document).ready(function () {
   $("#main-page").submit(function (event) {
@@ -61,6 +55,5 @@ $(document).ready(function () {
         getStateParks(response);
         parksInfo(response);
       });
-
   });
 });
