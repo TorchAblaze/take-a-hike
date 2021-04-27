@@ -20,22 +20,27 @@ function getStateParks(response) {
 function parksInfo(response) {
   $(".park-names").click(function(){
     $(".park-names").hide();
-    let parkActivities = ``;
-    response.data[clickedPark].activities.forEach((activity) => {
-      parkActivities += response.data[clickedPark].activities[activity].name;
-    });
-    parkDescription = `${response.data[clickedPark].description}`;
-    parkAlerts = ``; // different url? 
-    parkFees = 
-
-    parkDescription;
-
     const clickedPark = this.id; 
     const parkName = response.data[clickedPark].fullName;
+    console.log(parkName);
 
+    const parkDescription = `${response.data[clickedPark].description}`;
+    const parkFees = `${response.data[clickedPark].entranceFees[0].cost}`;
+
+    let parkActivities = ``;
+    console.log(parkActivities);
+
+    response.data[clickedPark].activities.forEach((activity) => {
+      parkActivities += activity.name;
+    });
+    // parkAlerts = ``; // different url? 
+
+    parkDescription;
+    console.log(`park fees: ${parkFees}`);
     console.log(response);
-    $(".parkInfoOutput").html(parkName);
-    $(".parkInfoOutput").slideDown();
+    // $(".parkInfoOutput").html(parkName);
+    $(".parkInfoOutput").slideDown(parkFees);
+    $(".parkInfoOutput").show();
   });
 }
 
