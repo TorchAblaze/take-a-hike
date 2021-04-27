@@ -5,25 +5,45 @@ import './css/styles.css';
 import NpsMainService from './js/nps-main-api.js'; 
 
 function getStateParks(response) {
+  $(".parkInfoOutput").hide();
   let parkListHTML = ``;
   if (response.data) {
-    response.data.forEach((object) => {
-      parkListHTML += (`<li><button id=${object.parkCode} class="park-names">${object.fullName}</button></li>`);
+    response.data.forEach((object, index) => {
+      parkListHTML += (`<p><button id=${index} class="park-names">${object.fullName}</button></p>`);
     });
-    $(".output").html(parkListHTML);
+    $(".park-list").html(parkListHTML);
   } else {
-    $(".output").text("that hit the else statement");
+    $(".park-list").text("🍃 Oops! I can't beleaf there was a problem, try again 🍃");
   }
 }
 
 function parksInfo(response) {
   $(".park-names").click(function(){
-    const clickedPark = this.id;
-    console.log(this);
+    $(".park-names").hide();
+    let parkActivities = ``;
+    response.data[clickedPark].activities.forEach((activity) => {
+      parkActivities += response.data[clickedPark].activities[activity].name;
+    });
+    parkDescription = `${response.data[clickedPark].description}`;
+    parkAlerts = ``; // different url? 
+    parkFees = 
+
+    parkDescription;
+
+    const clickedPark = this.id; 
+    const parkName = response.data[clickedPark].fullName;
+
     console.log(response);
-    $(".parkInfoOutput").html(clickedPark);
+    $(".parkInfoOutput").html(parkName);
+    $(".parkInfoOutput").slideDown();
   });
 }
+
+
+
+
+
+
 
 $(document).ready(function () {
   $("#main-page").submit(function (event) {
