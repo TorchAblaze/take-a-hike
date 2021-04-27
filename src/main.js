@@ -11,7 +11,7 @@ function getElements(response) {
   let parkListHTML = ``;
   if (response.data) {
     response.data.forEach((element) => {
-      parkListHTML += (`<li>${element.fullName}</li>`);
+      parkListHTML += (`<li id="${element.id}">${element.fullName}</li> ${element.addresses[0].postalCode}`); //what if we pull the zip code out as well when we are pullin out the names of the parks.
     });
     $(".output").html(parkListHTML);
   } else {
@@ -20,14 +20,21 @@ function getElements(response) {
   }
 }
 
-function chainElements(response) {
-  const parkZip = response.data.addresses.postalCode;
-  if (parkZip) {
-    return parkZip;
-  } else {
-    console.log(response)
+function getZipCodes(response) {
+  let parkZipCodeList = ``;
+  if (response.data) {
+    response.data.
   }
 }
+//that would then get rid of the need for this function.
+// function chainElements(response) {
+//   const parkZip = response.data[0].addresses[0].postalCode;
+//   if (parkZip) {
+//     return parkZip;
+//   } else {
+//     console.log("That did not work fool");
+//   }
+// }
 
 function getWeatherElements(response) {
   if (response.main) {
@@ -48,20 +55,29 @@ $(document).ready(function () {
     event.preventDefault();
 
     const selectedState = $("#state-select").val();
-    const parkCode = "97229"
 
     NpsMainService.getPark(selectedState)
       .then(function (response) {
         getElements(response);
-        chainElements(response);
         let pleaseWork = response.data;
         console.log(pleaseWork);
+
+        $("li").click(function () {
+          // chainElements(response);
+          // const parkZip = response.data[0].addresses[0].postalCode;
+          // console.log(chainElements(response));
+          WeatherService.getWeather(response.data.addresses[0].postalCode)//here we would reference the response.postalCode instead of parkZip.
+            .then(function (response) {
+              getWeatherElements(response);//this would stay the same.
+            });
+        });
       });
-
-    WeatherService.getWeather(parkCode)
-      .then(function (response) {
-        getWeatherElements(response);
-      })
-
   });
 });
+
+// // "$ = JQuery; interchangable"
+// $(function() { // updated syntax: (document).ready
+//   $(".clickable.section1").on("click", function() {
+//     $("#content1").slideToggle()
+//     $("#hide1").fadeToggle()
+//     $("#show1").slideToggle()
