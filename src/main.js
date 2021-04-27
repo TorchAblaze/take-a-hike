@@ -7,17 +7,21 @@ import NpsMainService from './js/nps-main-api.js';
 function getStateParks(response) {
   let parkListHTML = ``;
   if (response.data) {
-    response.data.forEach((element) => {
-      parkListHTML += (`<li><button id=${element.parkCode}>${element.fullName}</button></li>`);
+    response.data.forEach((object) => {
+      parkListHTML += (`<li><button id=${object.parkCode} class="park-names">${object.fullName}</button></li>`);
     });
     $(".output").html(parkListHTML);
   } else {
     $(".output").text("that hit the else statement");
   }
 }
+
 function parksInfo(response) {
-  $(`${response.data.parkCode}`).click(function(){
-    $(".parkInfoOutput").html();
+  $(".park-names").click(function(){
+    const clickedPark = this.id;
+    console.log(this);
+    console.log(response);
+    $(".parkInfoOutput").html(clickedPark);
   });
 }
 
