@@ -50,7 +50,8 @@ function getWeatherElements(response) {
 
 function parksInfo(response) {
   $(".park-names").click(function () {
-    $(".park-names").hide();
+    $(".park-names").fadeOut();
+    $("#main-page").fadeOut();
     const clickedPark = this.id;
     const parkName = `<h2>${response.data[clickedPark].fullName}</h2>`;
     const parkDescription = `<h3>Description:</h3>  <ol>${response.data[clickedPark].description}</ol>`;
@@ -93,6 +94,7 @@ function parksInfo(response) {
               event.preventDefault();
               $(".parkInfoOutput").fadeOut();
               $(".park-names").fadeIn();
+              $("#main-page").fadeIn();
             });
           });
       });
