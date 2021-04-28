@@ -7,13 +7,13 @@ import NpsMainService from './js/nps-main-api.js';
 function getStateParks(response) {
   $(".parkInfoOutput").hide();
   let parkListHTML = ``;
-  if (response.data) {
+  if (response.data[0]) {
     response.data.forEach((object, index) => {
       parkListHTML += (`<p><button id=${index} class="park-names">${object.fullName}</button></p>`);
     });
     $(".park-list").html(parkListHTML);
   } else {
-    $(".park-list").text("🍃 Oops! I can't beleaf it! That state doesn't exist 🍃");
+    $(".park-list").html(`<br><h1><em><strong>🍃 Oops! I can't beleaf it! That state doesn't exist 🍃</em></strong></h1>`);
   }
 }
 
@@ -37,7 +37,7 @@ function parksInfo(response) {
           parkAlerts = "None";
         } else {
           response.data.forEach((alert) => {
-            parkAlerts += `<li>${alert.category} <p>${alert.description}</p> <a href="${alert.url}>READ MORE HERE</a></li>`;   
+            parkAlerts += `<li>${alert.category} <p>${alert.description}</p> <a href="${alert.url}" target="_blank">READ MORE HERE</a></li> <br>`;   
           });
         }
         $(".parkInfoOutput").html(`<h2>${parkName}</h2> <br> <h3>Description:</h3>  <ol>${parkDescription}</ol> <br> <h3>Alerts/Warnings:</h3><ol>${parkAlerts}</ol> <br> <h3>Fee: ${parkFees}</h3> <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul>`);
