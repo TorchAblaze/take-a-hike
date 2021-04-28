@@ -45,36 +45,42 @@ function getWeatherElements(response) {
   } else {
     $("#show-weather").text(response);
   }
-    $(".output").text("Oops, sorry, we didnt find anything. Please try again.");
-  }
+  $(".output").text("Oops, sorry, we didnt find anything. Please try again.");
 }
 
 function parksInfo(response) {
-  $(".park-names").click(function(){
+  $(".park-names").click(function () {
     $(".park-names").hide();
-    const clickedPark = this.id; 
-    const parkName = response.data[clickedPark].fullName;
-    const parkDescription = `${response.data[clickedPark].description}`;
-    const parkFees = `${response.data[clickedPark].entranceFees[0].cost}`;
+    const clickedPark = this.id;
+    const parkName = `<h2>${response.data[clickedPark].fullName}</h2>`;
+    const parkDescription = `<h3>Description:</h3>  <ol>${response.data[clickedPark].description}</ol>`;
+    const parkFees = `<h3>Fee: ${response.data[clickedPark].entranceFees[0].cost}</h3>`;
+    const parkZip = response.data[clickedPark].addresses[0].postalCode;
+    const formattedZip = parkZip.slice(0, 5);
+
     let parkActivities = ``;
     response.data[clickedPark].activities.forEach((activity) => {
       parkActivities += `<li>${activity.name}</li>`;
     });
-    
-    const parkCode = response.data[clickedPark].parkCode; 
+
+    const parkCode = response.data[clickedPark].parkCode;
     NpsMainService.getAlert(parkCode)
-      .then(function(response) {
+      .then(function (response) {
         let parkAlerts = ``;
         if (!response.data[0]) {
           parkAlerts = "None";
         } else {
           response.data.forEach((alert) => {
-            parkAlerts += `<li>${alert.category} <p>${alert.description}</p> <a href="${alert.url}" target="_blank">READ MORE HERE</a></li> <br>`;   
+            parkAlerts += `<h3>Alerts/Warnings:</h3><ol><li>${alert.category} <p>${alert.description}</p> <a href="${alert.url}" target="_blank">READ MORE HERE</a></li></ol>`;
           });
         }
-        $(".parkInfoOutput").html(`<h2>${parkName}</h2> <br> <h3>Description:</h3>  <ol>${parkDescription}</ol> <br> <h3>Alerts/Warnings:</h3><ol>${parkAlerts}</ol> <br> <h3>Fee: ${parkFees}</h3> <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul>`);
+        $(".parkInfoOutput").html(`${parkName} <br> ${parkDescription} <br> ${parkAlerts} <br> ${parkFees} <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul>`);
         $(".parkInfoOutput").slideDown();
-      }); 
+        WeatherService.getWeather(formattedZip)
+          .then(function (response) {
+            getWeatherElements(response);
+          });
+      });
   });
 }
 
@@ -88,14 +94,7 @@ $(document).ready(function () {
       .then(function (response) {
 
         getStateParks(response);
-          parksInfo(response);
-          const parkZip = response.data[this.id].addresses[0].postalCode;
-          const formattedZip = parkZip.slice(0, 5);
-          WeatherService.getWeather(formattedZip)
-            .then(function (response) {
-              getWeatherElements(response);
-            });
-        });
+        parksInfo(response);
       });
   });
 });
