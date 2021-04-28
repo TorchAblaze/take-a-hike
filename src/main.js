@@ -18,22 +18,22 @@ function getElements(response) {
 }
 
 function getWeatherElements(response) {
-  const description = response.weather[0].description
+  const description = response.weather[0].description;
   String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
-  }
+  };
   if (response.main) {
-    $("#current-temp").text(`Current Temp: ${response.main.temp} ℉`)
+    $("#current-temp").text(`Current Temp: ${response.main.temp} ℉`);
 
     $("#weather-description").text(`Weather Overview: ${description.capitalize()}`);
-    $("#high-temp").text(`High: ${response.main.temp_max} ℉`)
+    $("#high-temp").text(`High: ${response.main.temp_max} ℉`);
 
     $("#low-temp").text(`Low: ${response.main.temp_min} ℉`);
     $("#wind-speed").text(`Wind Speed: ${response.wind.speed} mph`);
     if (response.rain) {
       $("#rain-total").text(`${response.rain["1h"]} inches have been recorded in the last hour.`);
     } else {
-      $("#rain-total").text(`There has been no measurable rainfall for the past hour`)
+      $("#rain-total").text(`There has been no measurable rainfall for the past hour`);
     }
     if (response.snow) {
       $("#snow-total").text(`${response.snow["1h"]} inches have been recorded in the last hour.`);
