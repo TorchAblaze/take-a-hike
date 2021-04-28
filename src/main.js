@@ -33,14 +33,14 @@ function parksInfo(response) {
     NpsMainService.getAlert(parkCode)
       .then(function(response) {
         let parkAlerts = ``;
-        if (parseInt(response.total) === "0"); {
-          console.log(response.total);
+        if (!response.data[0]) {
           parkAlerts = "None";
+        } else {
+          response.data.forEach((alert) => {
+            parkAlerts += `<li>${alert.category} <p>${alert.description}</p> <a href="${alert.url}>READ MORE HERE</a></li>`;   
+          });
         }
-        response.data.forEach((alert) => {
-          parkAlerts += `<li>${alert.category} <p>${alert.description}</p> <a href="${alert.url}>READ MORE HERE</a></li>`;   
-        }); 
-        $(".parkInfoOutput").html(`<h2>Park Name: ${parkName}</h2> <br> <h3>Park Info:</h3>  <ol>${parkDescription}</ol> <br> <h3>Park Alerts:</h3><ol>${parkAlerts}</ol> <br> <h3>Park Fee: ${parkFees}</h3> <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul>`);
+        $(".parkInfoOutput").html(`<h2>${parkName}</h2> <br> <h3>Description:</h3>  <ol>${parkDescription}</ol> <br> <h3>Alerts/Warnings:</h3><ol>${parkAlerts}</ol> <br> <h3>Fee: ${parkFees}</h3> <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul>`);
         $(".parkInfoOutput").slideDown();
       }); 
   });
