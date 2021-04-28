@@ -2,6 +2,8 @@
 
 body {
   background-color: blanchedalmond;
+  max-width: 1500px;
+  margin: 0 auto;
 }
 
 h1 {
@@ -11,11 +13,9 @@ h1 {
 
 p {
   color: burlywood;
-  text-align: center;
   margin: 10px;
 }
 
 .parkInfoOutput {
-  text-align: center;
   display: none;
 }
