@@ -10,8 +10,8 @@ import WeatherService from './js/weather-api';
 function getElements(response) {
   let parkListHTML = ``;
   if (response.data) {
-    response.data.forEach((element) => {
-      parkListHTML += (`<li id="${element.id}">${element.fullName}</li> ${element.addresses[0].postalCode}`); //what if we pull the zip code out as well when we are pullin out the names of the parks.
+    response.data.forEach((element, index) => {
+      parkListHTML += (`<li id="${index}">${element.fullName}</li>`); //what if we pull the zip code out as well when we are pullin out the names of the parks.
     });
     $(".output").html(parkListHTML);
   } else {
@@ -20,12 +20,6 @@ function getElements(response) {
   }
 }
 
-function getZipCodes(response) {
-  let parkZipCodeList = ``;
-  if (response.data) {
-    response.data.
-  }
-}
 //that would then get rid of the need for this function.
 // function chainElements(response) {
 //   const parkZip = response.data[0].addresses[0].postalCode;
@@ -64,9 +58,9 @@ $(document).ready(function () {
 
         $("li").click(function () {
           // chainElements(response);
-          // const parkZip = response.data[0].addresses[0].postalCode;
+          const parkZip = response.data[this.id].addresses[0].postalCode;
           // console.log(chainElements(response));
-          WeatherService.getWeather(response.data.addresses[0].postalCode)//here we would reference the response.postalCode instead of parkZip.
+          WeatherService.getWeather(parkZip)//here we would reference the response.postalCode instead of parkZip.
             .then(function (response) {
               getWeatherElements(response);//this would stay the same.
             });
