@@ -5,30 +5,18 @@ import './css/styles.css';
 import NpsMainService from './js/nps-main-api.js';
 import WeatherService from './js/weather-api';
 
-// const names = ["Jesse", "Marney", "Isaac", "Tiffany"]
-
 function getElements(response) {
   let parkListHTML = ``;
   if (response.data) {
     response.data.forEach((element, index) => {
-      parkListHTML += (`<li id="${index}">${element.fullName}</li>`); //what if we pull the zip code out as well when we are pullin out the names of the parks.
+      parkListHTML += (`<li id="${index}">${element.fullName}</li>`);
     });
     $(".output").html(parkListHTML);
   } else {
-    $(".output").text("that hit the else statement");
-    console.log(response);// we can see this! YAY! :D
+    $(".output").text("Oops, sorry, we didnt find anything. Please try again.");
   }
 }
 
-//that would then get rid of the need for this function.
-// function chainElements(response) {
-//   const parkZip = response.data[0].addresses[0].postalCode;
-//   if (parkZip) {
-//     return parkZip;
-//   } else {
-//     console.log("That did not work fool");
-//   }
-// }
 
 function getWeatherElements(response) {
   if (response.main) {
@@ -57,21 +45,13 @@ $(document).ready(function () {
         console.log(pleaseWork);
 
         $("li").click(function () {
-          // chainElements(response);
           const parkZip = response.data[this.id].addresses[0].postalCode;
-          // console.log(chainElements(response));
-          WeatherService.getWeather(parkZip)//here we would reference the response.postalCode instead of parkZip.
+          const formattedZip = parkZip.slice(0, 5);
+          WeatherService.getWeather(formattedZip)
             .then(function (response) {
-              getWeatherElements(response);//this would stay the same.
+              getWeatherElements(response);
             });
         });
       });
   });
 });
-
-// // "$ = JQuery; interchangable"
-// $(function() { // updated syntax: (document).ready
-//   $(".clickable.section1").on("click", function() {
-//     $("#content1").slideToggle()
-//     $("#hide1").fadeToggle()
-//     $("#show1").slideToggle()
