@@ -57,6 +57,15 @@ function parksInfo(response) {
     const parkFees = `<h3>Fee: ${response.data[clickedPark].entranceFees[0].cost}</h3>`;
     const parkZip = response.data[clickedPark].addresses[0].postalCode;
     const formattedZip = parkZip.slice(0, 5);
+    const weatherHTML = `<section id="show-weather" class="container">
+    <div id="current-temp"></div>
+    <div id="weather-description"></div>
+    <div id="high-temp"></div>
+    <div id="low-temp"></div>
+    <div id="wind-speed"></div>
+    <div id="rain-total"></div>
+    <div id="snow-total"></div>
+    </section>`
 
     let parkActivities = ``;
     response.data[clickedPark].activities.forEach((activity) => {
@@ -71,18 +80,19 @@ function parksInfo(response) {
           parkAlerts = "None";
         } else {
           response.data.forEach((alert) => {
-            parkAlerts += `<h3>Alerts/Warnings:</h3><ol><li>${alert.category} <p>${alert.description}</p> <a href="${alert.url}" target="_blank">READ MORE HERE</a></li></ol>`;
+            parkAlerts += `<ol><li>${alert.category} <p>${alert.description}</p> <a href="${alert.url}" target="_blank">READ MORE HERE</a></li></ol>`;
           });
         }
-        $(".parkInfoOutput").html(`${parkName} <br> ${parkDescription} <br> ${parkAlerts} <br> ${parkFees} <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul>`);
-        $(".parkInfoOutput").slideDown();
+        $(".parkInfoOutput").html(`${parkName} <br> ${parkDescription} <br> <h3>Alerts/Warnings:</h3>${parkAlerts} <br> <h3>Weather Overview</h3>${weatherHTML}<br> ${parkFees} <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul>`);
         WeatherService.getWeather(formattedZip)
           .then(function (response) {
             getWeatherElements(response);
+            $(".parkInfoOutput").slideDown();
           });
       });
   });
 }
+
 
 $(document).ready(function () {
   $("#main-page").submit(function (event) {
