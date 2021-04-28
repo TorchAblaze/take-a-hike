@@ -82,7 +82,11 @@ function parksInfo(response) {
           parkAlerts = "None";
         } else {
           response.data.forEach((alert) => {
-            parkAlerts += `<ol><li>${alert.category} <p>${alert.description}</p> <a href="${alert.url}" target="_blank">READ MORE HERE</a></li></ol>`;
+            if (alert.url === "") {
+              parkAlerts += `<ol><li>${alert.category} <p>${alert.description}</p></ol>`;
+            } else {
+              parkAlerts += `<ol><li>${alert.category} <p>${alert.description}</p><a href="${alert.url}" target="_blank">READ MORE HERE</a></li></ol>`;
+            }
           });
         }
         $(".parkInfoOutput").html(`${parkName} <br> ${parkDescription} <br> <h3>Alerts/Warnings:</h3>${parkAlerts} <br> <h3>Weather Overview</h3>${weatherHTML}<br> ${parkFees} <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul> ${backButton}`);
