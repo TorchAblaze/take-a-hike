@@ -20,13 +20,23 @@ function getElements(response) {
 
 function getWeatherElements(response) {
   if (response.main) {
-    $("#current-temp").text(response.main.temp);
+    $("#current-temp").text(`Current temp: ${response.main.temp}`)
+
     $("#weather-description").text(response.weather[0].description);
-    $("#high-temp").text(response.main.temp_max);
-    $("#low-temp").text(response.main.temp_min);
-    $("#wind-speed").text(response.wind.speed);
-    // $("#rain-total").text(response.rain[3h]);
-    // $("#snow-total").text(response.snow.snow[3h]);
+    $("#high-temp").text(`High: ${response.main.temp_max}`)
+
+    $("#low-temp").text(`Low: ${response.main.temp_min}`);
+    $("#wind-speed").text(`Wind Speed: ${response.wind.speed}`);
+    if (response.rain) {
+      $("#rain-total").text(`${response.rain["1h"]} inches have been reported in the last hour.`);
+    } else {
+      $("#rain-total").text(`There has been no rain for the past hour`)
+    }
+    if (response.snow) {
+      $("#snow-total").text(`${response.snow["1h"]} inches have been reported in the last hour.`);
+    } else {
+      $("#snow-total").text(`No snowfall to report`);
+    }
   } else {
     $("#show-weather").text(response);
   }
@@ -49,6 +59,7 @@ $(document).ready(function () {
           const formattedZip = parkZip.slice(0, 5);
           WeatherService.getWeather(formattedZip)
             .then(function (response) {
+              console.log(formattedZip);
               getWeatherElements(response);
             });
         });
