@@ -66,6 +66,7 @@ function parksInfo(response) {
     <div id="rain-total"></div>
     <div id="snow-total"></div>
     </section>`
+    const backButton = `<button id="back-button" class="btn btn-success">Back to Results</button>`;
 
     let parkActivities = ``;
     response.data[clickedPark].activities.forEach((activity) => {
@@ -83,11 +84,16 @@ function parksInfo(response) {
             parkAlerts += `<ol><li>${alert.category} <p>${alert.description}</p> <a href="${alert.url}" target="_blank">READ MORE HERE</a></li></ol>`;
           });
         }
-        $(".parkInfoOutput").html(`${parkName} <br> ${parkDescription} <br> <h3>Alerts/Warnings:</h3>${parkAlerts} <br> <h3>Weather Overview</h3>${weatherHTML}<br> ${parkFees} <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul>`);
+        $(".parkInfoOutput").html(`${parkName} <br> ${parkDescription} <br> <h3>Alerts/Warnings:</h3>${parkAlerts} <br> <h3>Weather Overview</h3>${weatherHTML}<br> ${parkFees} <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul> ${backButton}`);
         WeatherService.getWeather(formattedZip)
           .then(function (response) {
             getWeatherElements(response);
             $(".parkInfoOutput").slideDown();
+            $("#back-button").click(function (event) {
+              event.preventDefault();
+              $(".parkInfoOutput").fadeOut();
+              $(".park-names").fadeIn();
+            });
           });
       });
   });
