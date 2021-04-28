@@ -25,22 +25,24 @@ function parksInfo(response) {
     const parkDescription = `${response.data[clickedPark].description}`;
     const parkFees = `${response.data[clickedPark].entranceFees[0].cost}`;
     let parkActivities = ``;
-
     response.data[clickedPark].activities.forEach((activity) => {
       parkActivities += `<li>${activity.name}</li>`;
     });
-
-    const parkCode = response.data[clickedPark].parkCode;
-    let parkAlerts = ``;
+    
+    const parkCode = response.data[clickedPark].parkCode; 
     NpsMainService.getAlert(parkCode)
       .then(function(response) {
+        let parkAlerts = ``;
+        if (parseInt(response.total) === "0"); {
+          console.log(response.total);
+          parkAlerts = "None";
+        }
         response.data.forEach((alert) => {
-          console.log(alert);
-          parkAlerts += `<li>${alert.description}</li>`;
-        });
-      });
-    $(".parkInfoOutput").html(`<h2>Park Name: ${parkName}</h2> <br> <h3>Park Info: ${parkDescription}</h3> <br> <h3>Park Alerts:</h3><or>${parkAlerts}</ol> <br> <h3>Park Fee: ${parkFees}</h3> <br> <ul>Park Activities: ${parkActivities}</ul>`);
-    $(".parkInfoOutput").slideDown();
+          parkAlerts += `<li>${alert.category} <p>${alert.description}</p> <a href="${alert.url}>READ MORE HERE</a></li>`;   
+        }); 
+        $(".parkInfoOutput").html(`<h2>Park Name: ${parkName}</h2> <br> <h3>Park Info:</h3>  <ol>${parkDescription}</ol> <br> <h3>Park Alerts:</h3><ol>${parkAlerts}</ol> <br> <h3>Park Fee: ${parkFees}</h3> <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul>`);
+        $(".parkInfoOutput").slideDown();
+      }); 
   });
 }
 
