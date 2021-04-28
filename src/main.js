@@ -17,25 +17,28 @@ function getElements(response) {
   }
 }
 
-
 function getWeatherElements(response) {
+  const description = response.weather[0].description
+  String.prototype.capitalize = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  }
   if (response.main) {
-    $("#current-temp").text(`Current temp: ${response.main.temp}`)
+    $("#current-temp").text(`Current Temp: ${response.main.temp} ℉`)
 
-    $("#weather-description").text(response.weather[0].description);
-    $("#high-temp").text(`High: ${response.main.temp_max}`)
+    $("#weather-description").text(`Weather Overview: ${description.capitalize()}`);
+    $("#high-temp").text(`High: ${response.main.temp_max} ℉`)
 
-    $("#low-temp").text(`Low: ${response.main.temp_min}`);
-    $("#wind-speed").text(`Wind Speed: ${response.wind.speed}`);
+    $("#low-temp").text(`Low: ${response.main.temp_min} ℉`);
+    $("#wind-speed").text(`Wind Speed: ${response.wind.speed} mph`);
     if (response.rain) {
-      $("#rain-total").text(`${response.rain["1h"]} inches have been reported in the last hour.`);
+      $("#rain-total").text(`${response.rain["1h"]} inches have been recorded in the last hour.`);
     } else {
-      $("#rain-total").text(`There has been no rain for the past hour`)
+      $("#rain-total").text(`There has been no measurable rainfall for the past hour`)
     }
     if (response.snow) {
-      $("#snow-total").text(`${response.snow["1h"]} inches have been reported in the last hour.`);
+      $("#snow-total").text(`${response.snow["1h"]} inches have been recorded in the last hour.`);
     } else {
-      $("#snow-total").text(`No snowfall to report`);
+      $("#snow-total").text(`There has been no measurable snowfall for the past hour`);
     }
   } else {
     $("#show-weather").text(response);
@@ -51,15 +54,12 @@ $(document).ready(function () {
     NpsMainService.getPark(selectedState)
       .then(function (response) {
         getElements(response);
-        let pleaseWork = response.data;
-        console.log(pleaseWork);
 
         $("li").click(function () {
           const parkZip = response.data[this.id].addresses[0].postalCode;
           const formattedZip = parkZip.slice(0, 5);
           WeatherService.getWeather(formattedZip)
             .then(function (response) {
-              console.log(formattedZip);
               getWeatherElements(response);
             });
         });
