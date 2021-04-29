@@ -2,10 +2,11 @@
 
 html {
   background-image: url(./../../assets/images/Fern.jpeg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: fixed;
+  background-size: auto;
+  background-position: center;
   background-color:black;
+  position: relative;
+  height: 1000px;
 }
 
 body {
@@ -23,7 +24,7 @@ h1 {
 
 q,
 p {
-  margin: 10px, 50px;
+  margin: 15px, 50px;
 }
 
 footer {

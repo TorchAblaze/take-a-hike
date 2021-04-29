@@ -89,7 +89,7 @@ function parksInfo(response) {
             }
           });
         }
-        $(".parkInfoOutput").html(`${parkName} <br> ${parkDescription} <br> <h3>Alerts/Warnings:</h3><ol>${parkAlerts}</ol> <br> <h3>Weather Overview</h3>${weatherHTML}<br> ${parkFees} <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul> ${backButton}`);
+        $(".parkInfoOutput").html(`${parkName} <br> ${parkDescription} <br> <h3>Alerts/Warnings:</h3><ol>${parkAlerts}</ol> <br> <h3>Weather</h3>${weatherHTML}<br> ${parkFees} <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul> ${backButton}`);
         WeatherService.getWeather(formattedZip)
           .then(function (response) {
             getWeatherElements(response);
