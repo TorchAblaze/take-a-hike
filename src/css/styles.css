@@ -45,3 +45,8 @@ footer {
   background-color: rgb(87, 171, 255);
   color: white;
 }
+
+#park-image-header {
+  max-height: 500px;
+  min-height: 500px;
+}

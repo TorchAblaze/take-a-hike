@@ -68,6 +68,7 @@ function parksInfo(response) {
     <div id="snow-total"></div>
     </section>`;
     const backButton = `<button id="back-button" class="btn btn-success">Back to Results</button>`;
+    const parkImage = `<img src=${response.data[clickedPark].images[0].url} alt=${response.data[clickedPark].images[0].altText} id="park-image-header">`;
 
     let parkActivities = ``;
     response.data[clickedPark].activities.forEach((activity) => {
@@ -85,11 +86,11 @@ function parksInfo(response) {
             if (alert.url === "") {
               parkAlerts += `<li>${alert.category} <p>${alert.description}</p>`;
             } else {
-              parkAlerts += `<li>${alert.category} <p>${alert.description}</p><a href="${alert.url}" target="_blank">READ MORE HERE</a></li>`;
+              parkAlerts += `<li>${alert.category} <p>${alert.description} <br> <a href="${alert.url}" target="_blank">READ MORE HERE</a></li></p>`;
             }
           });
         }
-        $(".parkInfoOutput").html(`${parkName} <br> ${parkDescription} <br> <h3>Alerts/Warnings:</h3><ol>${parkAlerts}</ol> <br> <h3>Weather</h3>${weatherHTML}<br> ${parkFees} <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul> ${backButton}`);
+        $(".parkInfoOutput").html(`${parkImage} <br> <br> ${parkName} <br> ${parkDescription} <br> <h3>Alerts/Warnings:</h3><ol>${parkAlerts}</ol> <br> <h3>Weather</h3>${weatherHTML}<br> ${parkFees} <br> <h3>Park Activities:</h3> <ul>${parkActivities}</ul> ${backButton}`);
         WeatherService.getWeather(formattedZip)
           .then(function (response) {
             getWeatherElements(response);

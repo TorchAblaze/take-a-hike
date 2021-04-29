@@ -1,6 +1,6 @@
-# _{Application Name}_
-#### _{Brief description of application}_
-#### By _Jesse White_
+# _Take-A-Hike_
+#### _Hiking / Hiking activities populated by state and national Park_
+#### By _Jesse White, Brandon Magofna, Marney Mallory, & Isaac Moreno_
 ## Technologies Used
 * _HTML_ 📝
 * _CSS_ 🎨
@@ -9,7 +9,7 @@
 * _Webpack_ 💾
 * _Bootstrap_ 🥾
 ## Description 📜
-_{This is a detailed description of your application. Give as much detail as needed to explain what the application does as well as any other information you want users or other developers to have.}
+_{This application will provide users the ability to check national parks/monuments to see park conditions in terms of alerts, weather, activities, etc.}
 ### Prerequisites 💻
 * [Node](https://nodejs.org/en/)
 * A text editor like [VS Code](https://code.visualstudio.com/)
