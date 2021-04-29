@@ -66,7 +66,7 @@ function parksInfo(response) {
     <div id="wind-speed"></div>
     <div id="rain-total"></div>
     <div id="snow-total"></div>
-    </section>`
+    </section>`;
     const backButton = `<button id="back-button" class="btn btn-success">Back to Results</button>`;
 
     let parkActivities = ``;
