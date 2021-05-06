@@ -33,8 +33,8 @@ This application will provide users the ability to check national parks/monument
 5. Navigate to the `take-a-hike/` directory on your computer.
 6. Open with your preferred text editor to view the code base.
 7. Create an .env file in the root directory and navigate to it.
-8. Write the following script: NPS*API_KEY=\_your API key that was sent to your email.*
-9. Write the following script: WEATHER*API_KEY=\_your API key that was sent to your email.*
+8. Write the following script: `NPS_API_KEY={your API key that was sent to your email}`
+9. Write the following script: `WEATHER_API_KEY={your API key that was sent to your email}`
 10. To start a development server and view the project in the browser:
     - _Navigate to `take-a-hike/` in your command line_
     - _Run the command `npm install` to install dependencies_
